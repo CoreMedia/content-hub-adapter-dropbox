@@ -27,6 +27,12 @@ content-hub-adapters is the appearance in CoreMedia studio. The image below is s
 multiple configured content-hub-adapters in Studio (content-hub-adapter-dropbox is marked with a blue background).
 
 ![Image1: Studio appearance with configured adapters](images/editorial-quick-start/image01.png)
+
+## Types of content working with this adapter
+- Images
+- Audios
+- Videos
+- PDF
   
 ## Browsing the content-hub-adapter-coremedia
 Depending on the configuration of the adapter, the appearance of the tree may vary. The following sections 
