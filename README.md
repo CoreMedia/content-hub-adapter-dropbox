@@ -1,6 +1,6 @@
 ![CoreMedia Labs Logo](https://documentation.coremedia.com/badges/banner_coremedia_labs_wide.png "CoreMedia Labs Logo")
 
-![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2004.1&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
+![CoreMedia Content Cloud Version](https://img.shields.io/static/v1?message=2007&label=CoreMedia%20Content%20Cloud&style=for-the-badge&labelColor=666666&color=672779 
 "This badge shows the CoreMedia version this project is compatible with. 
 Please read the versioning section of the project to see what other CoreMedia versions are supported and how to find them."
 )
@@ -8,18 +8,23 @@ Please read the versioning section of the project to see what other CoreMedia ve
 "The status badge describes if the project is maintained. Possible values are active and inactive. 
 If a project is inactive it means that the development has been discontinued and won't support future CoreMedia versions."
 )
-# content-hub-adapter-dropbox
-The content-hub-adapter-dropbox extension is providing access to content in Dropbox via configuration. 
-Content stored in Dropbox is available as an additional tree inside the studio instance after successful configuration of the content-hub-adapter.
+# Content Hub Adapter for Dropbox
 
+The **content-hub-adapter-dropbox** extension is providing access to content in Dropbox via a configuration. 
+Content stored in Dropbox is available as an additional tree inside the studio instance after a successful configuration of the content-hub-adapter. The 
+types of content working with this adapter are:
+- Images
+- Audios
+- Videos
+- PDF
 
 ## Versioning
 
-To find out which CoreMedia versions are `supported by this project, please take look at the releases section or on the existing branches. To find the matching version of your CoreMedia system, please checkout the branch with the corresponding name. For example, if your CoreMedia version is 2001.2, checkout the branch 2001.2.
+To find out which CoreMedia versions are supported by this project, please take look at the releases section or on the existing branches. To find the matching version of your CoreMedia system, please checkout the branch with the corresponding name. For example, if your CoreMedia version is 2007.2, checkout the branch cmcc-10-2007.
 
 ## Documentation & Tutorial
 
-* **[Documentation](documentation/README.md)**
+* **[Documentation](docs/README.md)**
 
     for guides for editors, administrators and developers    
 
