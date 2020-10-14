@@ -11,7 +11,12 @@ If a project is inactive it means that the development has been discontinued and
 # Content Hub Adapter for Dropbox
 
 The **content-hub-adapter-dropbox** extension is providing access to content in Dropbox via a configuration. 
-Content stored in Dropbox is available as an additional tree inside the studio instance after a successful configuration of the content-hub-adapter.
+Content stored in Dropbox is available as an additional tree inside the studio instance after a successful configuration of the content-hub-adapter. The 
+types of content working with this adapter are:
+- Images
+- Audios
+- Videos
+- PDF
 
 ## Versioning
 
