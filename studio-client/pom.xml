@@ -10,6 +10,7 @@
     <version>1-SNAPSHOT</version>
   </parent>
 
+  <groupId>com.coremedia.blueprint.contenthub</groupId>
   <artifactId>studio-client.content-hub-adapter-dropbox</artifactId>
   <packaging>swc</packaging>
 
