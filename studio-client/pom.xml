@@ -10,6 +10,11 @@
   <version>1-SNAPSHOT</version>
   <description>Studio Plugin for the Content Hub's Dropbox Adapter</description>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
   <organization>
     <name>Blueprint</name>
   </organization>
