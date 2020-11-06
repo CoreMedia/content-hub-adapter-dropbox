@@ -12,6 +12,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <dropbox.version>3.1.3</dropbox.version>
+    <cm.studio-server.core.version>1-SNAPSHOT</cm.studio-server.core.version>
+    <cm.common.core.version>1-SNAPSHOT</cm.common.core.version>
   </properties>
 
   <dependencyManagement>
@@ -19,21 +21,21 @@
       <dependency>
         <groupId>com.coremedia.cms</groupId>
         <artifactId>studio-server-core-bom</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>${cm.studio-server.core.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.coremedia.cms</groupId>
         <artifactId>studio-server-thirdparty-for-plugins-bom</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>${cm.studio-server.core.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>com.coremedia.cms</groupId>
         <artifactId>common-core-bom</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>${cm.common.core.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
