@@ -1,13 +1,6 @@
 package com.coremedia.labs.plugins.adapters.dropbox.server;
 
-import com.coremedia.contenthub.api.ContentHubAdapter;
-import com.coremedia.contenthub.api.ContentHubContext;
-import com.coremedia.contenthub.api.ContentHubObject;
-import com.coremedia.contenthub.api.ContentHubObjectId;
-import com.coremedia.contenthub.api.ContentHubTransformer;
-import com.coremedia.contenthub.api.Folder;
-import com.coremedia.contenthub.api.GetChildrenResult;
-import com.coremedia.contenthub.api.Item;
+import com.coremedia.contenthub.api.*;
 import com.coremedia.contenthub.api.exception.ContentHubException;
 import com.coremedia.contenthub.api.pagination.PaginationRequest;
 import com.dropbox.core.DbxException;
@@ -27,6 +20,7 @@ import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 class DropboxContentHubAdapter implements ContentHubAdapter {
@@ -36,10 +30,17 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
   private final String connectionId;
 
   private final DbxClientV2 client;
+  private ContentHubMimeTypeService mimeTypeService;
+  private final Map<ContentHubType, String> itemTypeToContentTypeMapping;
 
-  DropboxContentHubAdapter(@NonNull DropboxContentHubSettings settings, @NonNull String connectionId) {
+  DropboxContentHubAdapter(@NonNull DropboxContentHubSettings settings,
+                           @NonNull String connectionId,
+                           @NonNull ContentHubMimeTypeService mimeTypeService,
+                           @NonNull Map<ContentHubType, String> itemTypeToContentTypeMapping) {
     this.settings = settings;
     this.connectionId = connectionId;
+    this.mimeTypeService = mimeTypeService;
+    this.itemTypeToContentTypeMapping = itemTypeToContentTypeMapping;
 
     String accessToken = settings.getAccessToken();
     String displayName = settings.getDisplayName();
@@ -93,7 +94,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
       LOGGER.warn("Dropbox item not found for connector id " + id);
       return null;
     }
-    return new DropboxItem(id, fileMetadata, client);
+    return new DropboxItem(id, fileMetadata, client, mimeTypeService, itemTypeToContentTypeMapping);
   }
 
   @Nullable
@@ -118,7 +119,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
         if (entry instanceof FolderMetadata) {
           children.add(new DropboxFolder(id, entry, entry.getName()));
         } else {
-          children.add(new DropboxItem(id, entry, client));
+          children.add(new DropboxItem(id, entry, client, mimeTypeService, itemTypeToContentTypeMapping));
         }
       }
 

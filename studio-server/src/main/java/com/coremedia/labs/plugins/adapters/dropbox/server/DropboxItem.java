@@ -2,11 +2,7 @@ package com.coremedia.labs.plugins.adapters.dropbox.server;
 
 
 import com.coremedia.common.util.WordAbbreviator;
-import com.coremedia.contenthub.api.ContentHubBlob;
-import com.coremedia.contenthub.api.ContentHubObjectId;
-import com.coremedia.contenthub.api.ContentHubType;
-import com.coremedia.contenthub.api.Item;
-import com.coremedia.contenthub.api.UrlBlobBuilder;
+import com.coremedia.contenthub.api.*;
 import com.coremedia.contenthub.api.exception.ContentHubException;
 import com.coremedia.contenthub.api.preview.DetailsElement;
 import com.coremedia.contenthub.api.preview.DetailsSection;
@@ -20,33 +16,32 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.springframework.web.util.HtmlUtils;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
-class DropboxItem extends DropboxHubObject implements Item {
+class DropboxItem extends BaseFileSystemItem implements Item {
   private static final WordAbbreviator ABBREVIATOR = new WordAbbreviator();
+  private static final int BLOB_SIZE_LIMIT = 10000000;
   private final FileMetadata fileMetadata;
   private final TikaMimeTypeService tikaservice;
+  private ContentHubMimeTypeService mimeTypeService;
+  private DbxClientV2 client;
 
-  DropboxItem(ContentHubObjectId id, Metadata metadata, DbxClientV2 client) {
-    super(id, metadata);
+  DropboxItem(ContentHubObjectId id,
+              Metadata metadata,
+              DbxClientV2 client,
+              ContentHubMimeTypeService mimeTypeService,
+              Map<ContentHubType, String> itemTypeToContentTypeMapping) {
+    super(id, metadata != null? metadata.getName(): "root", mimeTypeService, itemTypeToContentTypeMapping);
     setClient(client);
     this.fileMetadata = (FileMetadata) getFileMetadata(id);
     this.tikaservice = new TikaMimeTypeService();
     tikaservice.init();
+    this.mimeTypeService = mimeTypeService;
   }
 
   FileMetadata getFileMetadata() {
     return fileMetadata;
-  }
-
-  @NonNull
-  @Override
-  public ContentHubType getContentHubType() {
-    return new ContentHubType("dbx_file");
   }
 
   @NonNull
@@ -129,6 +124,14 @@ class DropboxItem extends DropboxHubObject implements Item {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(date);
     return calendar;
+  }
+
+  public DbxClientV2 getClient() {
+    return client;
+  }
+
+  public void setClient(DbxClientV2 client) {
+    this.client = client;
   }
 
   //-------------------# Helper #-------------------//
