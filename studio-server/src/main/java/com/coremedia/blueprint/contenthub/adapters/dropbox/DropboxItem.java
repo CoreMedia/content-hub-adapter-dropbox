@@ -16,6 +16,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.springframework.web.util.HtmlUtils;
 
+import javax.activation.MimeType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,13 +25,15 @@ class DropboxItem extends DropboxHubObject implements Item {
   private static final int BLOB_SIZE_LIMIT = 10000000;
   private FileMetadata fileMetadata;
   private TikaMimeTypeService tikaservice;
+  private ContentHubMimeTypeService mimeTypeService;
 
-  DropboxItem(ContentHubObjectId id, Metadata metadata, DbxClientV2 client) {
+  DropboxItem(ContentHubObjectId id, Metadata metadata, DbxClientV2 client, ContentHubMimeTypeService mimeTypeService) {
     super(id, metadata);
     setClient(client);
     this.fileMetadata = (FileMetadata) getFileMetadata(id);
     this.tikaservice = new TikaMimeTypeService();
     tikaservice.init();
+    this.mimeTypeService = mimeTypeService;
   }
 
   FileMetadata getFileMetadata() {
@@ -40,7 +43,9 @@ class DropboxItem extends DropboxHubObject implements Item {
   @NonNull
   @Override
   public ContentHubType getContentHubType() {
-    return new ContentHubType("dbx_file");
+    MimeType mimeType = this.mimeTypeService.mimeTypeForResourceName(this.getName());
+    return "*".equals(mimeType.getSubType()) ? new ContentHubType(mimeType.getPrimaryType()) : new ContentHubType(mimeType.getSubType(), new ContentHubType(mimeType.getPrimaryType()));
+
   }
 
   @NonNull

@@ -26,10 +26,12 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
   private final String connectionId;
 
   private DbxClientV2 client;
+  private ContentHubMimeTypeService mimeTypeService;
 
-  DropboxContentHubAdapter(@NonNull DropboxContentHubSettings settings, @NonNull String connectionId) {
+  DropboxContentHubAdapter(@NonNull DropboxContentHubSettings settings, @NonNull String connectionId, @NonNull ContentHubMimeTypeService mimeTypeService) {
     this.settings = settings;
     this.connectionId = connectionId;
+    this.mimeTypeService = mimeTypeService;
 
     String accessToken = settings.getAccessToken();
     String displayName = settings.getDisplayName();
@@ -83,7 +85,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
       LOGGER.warn("Dropbox item not found for connector id " + id);
       return null;
     }
-    return new DropboxItem(id, fileMetadata, client);
+    return new DropboxItem(id, fileMetadata, client, mimeTypeService);
   }
 
   @Nullable
@@ -109,7 +111,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
           children.add(new DropboxFolder(id, entry, entry.getName()));
         }
         else {
-          children.add(new DropboxItem(id, entry, client));
+          children.add(new DropboxItem(id, entry, client, mimeTypeService));
         }
       }
 
