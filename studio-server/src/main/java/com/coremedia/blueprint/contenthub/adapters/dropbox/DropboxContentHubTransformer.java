@@ -65,6 +65,10 @@ class DropboxContentHubTransformer implements ContentHubTransformer {
       contentModel.put("detailText", ContentCreationUtil.convertStringToRichtext(description));
     }
 
+    ContentHubBlob fileBlob = item.getBlob("data");
+    if (fileBlob != null) {
+      contentModel.put("data", fileBlob);
+    }
     //add additional properties
     additionalProps.forEach(contentModel::put);
 
