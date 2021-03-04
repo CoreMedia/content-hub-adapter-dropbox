@@ -1,15 +1,7 @@
 package com.coremedia.labs.plugins.adapters.dropbox.server;
 
 import com.coremedia.cap.common.Blob;
-import com.coremedia.contenthub.api.ContentCreationUtil;
-import com.coremedia.contenthub.api.ContentHubAdapter;
-import com.coremedia.contenthub.api.ContentHubContext;
-import com.coremedia.contenthub.api.ContentHubObject;
-import com.coremedia.contenthub.api.ContentHubTransformer;
-import com.coremedia.contenthub.api.ContentModel;
-import com.coremedia.contenthub.api.ContentModelReference;
-import com.coremedia.contenthub.api.Item;
-import com.coremedia.contenthub.api.UrlBlobBuilder;
+import com.coremedia.contenthub.api.*;
 import com.coremedia.cotopaxi.common.blobs.BlobServiceImpl;
 import com.coremedia.mimetype.TikaMimeTypeService;
 import com.coremedia.util.TempFileFactory;
@@ -75,6 +67,10 @@ class DropboxContentHubTransformer implements ContentHubTransformer {
       contentModel.put("detailText", ContentCreationUtil.convertStringToRichtext(description));
     }
 
+    ContentHubBlob fileBlob = item.getBlob("data");
+    if (fileBlob != null) {
+      contentModel.put("data", fileBlob);
+    }
     //add additional properties
     additionalProps.forEach(contentModel::put);
 
