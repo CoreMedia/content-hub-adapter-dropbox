@@ -1,4 +1,4 @@
-package com.coremedia.blueprint.contenthub.adapters.dropbox;
+package com.coremedia.labs.plugins.adapters.dropbox.server;
 
 import com.coremedia.contenthub.api.ContentHubAdapter;
 import com.coremedia.contenthub.api.ContentHubAdapterFactory;

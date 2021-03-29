@@ -1,8 +1,12 @@
-package com.coremedia.blueprint.contenthub.adapters.dropbox;
+package com.coremedia.labs.plugins.adapters.dropbox.server;
 
 
 import com.coremedia.common.util.WordAbbreviator;
-import com.coremedia.contenthub.api.*;
+import com.coremedia.contenthub.api.ContentHubBlob;
+import com.coremedia.contenthub.api.ContentHubObjectId;
+import com.coremedia.contenthub.api.ContentHubType;
+import com.coremedia.contenthub.api.Item;
+import com.coremedia.contenthub.api.UrlBlobBuilder;
 import com.coremedia.contenthub.api.exception.ContentHubException;
 import com.coremedia.contenthub.api.preview.DetailsElement;
 import com.coremedia.contenthub.api.preview.DetailsSection;
@@ -16,14 +20,16 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.springframework.web.util.HtmlUtils;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 class DropboxItem extends DropboxHubObject implements Item {
   private static final WordAbbreviator ABBREVIATOR = new WordAbbreviator();
-  private static final int BLOB_SIZE_LIMIT = 10000000;
-  private FileMetadata fileMetadata;
-  private TikaMimeTypeService tikaservice;
+  private final FileMetadata fileMetadata;
+  private final TikaMimeTypeService tikaservice;
 
   DropboxItem(ContentHubObjectId id, Metadata metadata, DbxClientV2 client) {
     super(id, metadata);
@@ -64,19 +70,20 @@ class DropboxItem extends DropboxHubObject implements Item {
     if (tikaservice != null) {
       String type = tikaservice.getMimeTypeForResourceName(getName());
 
-      if (type.contains("image"))
+      if (type.contains("image")) {
         return "CMPicture";
-      else if (type.contains("audio"))
+      } else if (type.contains("audio")) {
         return "CMAudio";
-      else if (type.contains("video"))
+      } else if (type.contains("video")) {
         return "CMVideo";
-      else if (type.equals("application/pdf"))
+      } else if (type.equals("application/pdf")) {
         return "CMDownload";
-      else
+      } else {
         return "CMArticle";
-    }
-    else
+      }
+    } else {
       return "CMArticle";
+    }
   }
 
   @NonNull

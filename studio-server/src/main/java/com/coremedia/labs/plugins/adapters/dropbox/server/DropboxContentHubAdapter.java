@@ -1,13 +1,23 @@
-package com.coremedia.blueprint.contenthub.adapters.dropbox;
+package com.coremedia.labs.plugins.adapters.dropbox.server;
 
-import com.coremedia.contenthub.api.*;
+import com.coremedia.contenthub.api.ContentHubAdapter;
+import com.coremedia.contenthub.api.ContentHubContext;
+import com.coremedia.contenthub.api.ContentHubObject;
+import com.coremedia.contenthub.api.ContentHubObjectId;
+import com.coremedia.contenthub.api.ContentHubTransformer;
+import com.coremedia.contenthub.api.Folder;
+import com.coremedia.contenthub.api.GetChildrenResult;
+import com.coremedia.contenthub.api.Item;
 import com.coremedia.contenthub.api.exception.ContentHubException;
 import com.coremedia.contenthub.api.pagination.PaginationRequest;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.http.StandardHttpRequestor;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.*;
+import com.dropbox.core.v2.files.FolderMetadata;
+import com.dropbox.core.v2.files.ListFolderBuilder;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.slf4j.Logger;
@@ -25,7 +35,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
   private final DropboxContentHubSettings settings;
   private final String connectionId;
 
-  private DbxClientV2 client;
+  private final DbxClientV2 client;
 
   DropboxContentHubAdapter(@NonNull DropboxContentHubSettings settings, @NonNull String connectionId) {
     this.settings = settings;
@@ -79,7 +89,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
   @Override
   public Item getItem(@NonNull ContentHubContext context, @NonNull ContentHubObjectId id) throws ContentHubException {
     Metadata fileMetadata = getFileMetadata(id);
-    if(fileMetadata == null) {
+    if (fileMetadata == null) {
       LOGGER.warn("Dropbox item not found for connector id " + id);
       return null;
     }
@@ -107,8 +117,7 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
         ContentHubObjectId id = new ContentHubObjectId(connectionId, entry.getPathDisplay());
         if (entry instanceof FolderMetadata) {
           children.add(new DropboxFolder(id, entry, entry.getName()));
-        }
-        else {
+        } else {
           children.add(new DropboxItem(id, entry, client));
         }
       }

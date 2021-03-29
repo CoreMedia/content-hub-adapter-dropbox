@@ -1,24 +1,22 @@
-package com.coremedia.blueprint.contenthub.adapters.dropbox;
+package com.coremedia.labs.plugins.adapters.dropbox.server;
 
 
 import com.coremedia.contenthub.api.ContentHubObject;
 import com.coremedia.contenthub.api.ContentHubObjectId;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.MediaMetadata;
 import com.dropbox.core.v2.files.Metadata;
 import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 abstract class DropboxHubObject implements ContentHubObject {
 
-  private ContentHubObjectId hubId;
+  private final ContentHubObjectId hubId;
   private String name;
   private String pathDisplay;
   private DbxClientV2 client;
 
   DropboxHubObject(ContentHubObjectId hubId, Metadata metadata) {
     this.hubId = hubId;
-    if(metadata != null) {  //ROOT
+    if (metadata != null) {  //ROOT
       this.name = metadata.getName();
       this.pathDisplay = metadata.getPathDisplay();
     }
@@ -52,11 +50,11 @@ abstract class DropboxHubObject implements ContentHubObject {
     return pathDisplay;
   }
 
-  public void setClient(DbxClientV2 client) {
-    this.client = client;
+  public DbxClientV2 getClient() {
+    return client;
   }
 
-  public DbxClientV2 getClient(){
-    return client;
+  public void setClient(DbxClientV2 client) {
+    this.client = client;
   }
 }
