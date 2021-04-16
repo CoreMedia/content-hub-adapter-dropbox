@@ -21,9 +21,9 @@
 
 ## Introducing
 
-As mentioned in the main documentation, the coremedia-content-hub-dropbox extension
-is providing access to a configurable Dropbox account. Common to all
-content-hub-adapters is the appearance in CoreMedia studio. The image below is showing 
+As mentioned in the main documentation, the coremedia-content-hub-dropbox plugin
+provides access to a configurable Dropbox account. Common to all
+content-hub-adapters is the appearance in CoreMedia studio. The image below shows 
 multiple configured content-hub-adapters in Studio (content-hub-adapter-dropbox is marked with a blue background).
 
 ![Image1: Studio appearance with configured adapters](images/editorial-quick-start/image01.png)
@@ -36,7 +36,7 @@ multiple configured content-hub-adapters in Studio (content-hub-adapter-dropbox 
   
 ## Browsing the content-hub-adapter-coremedia
 Depending on the configuration of the adapter, the appearance of the tree may vary. The following sections 
-are taking care of all configuration **places** and **options**.
+take care of all configuration **places** and **options**.
 
 ### Basic adapter configuration
 This section is covering the two possibilities to enable the content-hub-adapter-dropbox integration. Please note that those
@@ -57,14 +57,14 @@ For convenience reasons, naming proposal of this document is "Dropbox" (name of 
 ### Detailed adapter configuration
 
 #### Basic structure
-The table below is showing the initial toplevel entry for all content-hub-connector configurations.
+The table below shows the initial toplevel entry for all content-hub-connector configurations.
 
 | Key         | Type       | Required   |
 |-------------|------------|------------|
 | connections | StructList | Yes        |
 
 After creation of the initial struct list called **connections** the next step is to create the first entry. This can be done 
-in Studio with the struct editor by pressing "add Item to ListProperty". The table below is showing the entries which are common for all connectors.
+in Studio with the struct editor by pressing "add Item to ListProperty". The table below shows the entries which are common for all connectors.
 
 | Key           | Type       | Value                 | Required   |
 |---------------|------------|------------           |------------|
@@ -76,8 +76,8 @@ in Studio with the struct editor by pressing "add Item to ListProperty". The tab
 
 #### Required configuration
 In section [Basic structure](#basic-structure) and according to the table, the settings struct is currently empty.
-The settings struct itself is holding specific configuration options for the connector (common to all connectors).
-The table below is depicting all potentional entries. 
+The settings struct itself holds specific configuration options for the connector (common to all connectors).
+The table below depicts all potentional entries. 
 
 | Key               | Type       | Value                                                    | Required   |
 |---------------    |------------|------------                                              |------------|
@@ -85,17 +85,17 @@ The table below is depicting all potentional entries.
 | displayName       | String     | Name of the root folder to display in Studio             | No         |
 
 #### Example
-The image below is depicting a full configuration of the content-hub-adapter-dropbox in global space
+The image below depicts a full configuration of the content-hub-adapter-dropbox in global space
 
 ![Image2: Full adapter configuration](images/editorial-quick-start/image02.png)
 
 ## Usage
-Once the connector is configured, the "Dropbox" named tree should appear inside the library, and by clicking on "Dropbox"
-the tree expands and is showing loading and showing content from Dropbox in the well known folder-content structure from CoreMedia. The image below is showing the expected appearance.
+Once the connector is configured, the "Dropbox" named tree appears in the library, and by clicking on "Dropbox"
+the tree expands and is showing loading and showing content from Dropbox in the well known folder-content structure from CoreMedia. The image below shows the appearance.
 
 ![Image2: Expanded Studio tree](images/editorial-quick-start/image03.png)  
 
-By browsing the tree, the content-hub-adapter-dropbox is providing an import mechanism for content objects. The picture below is showing the 
+By browsing the tree, the content-hub-adapter-dropbox provides an import mechanism for content objects. The picture below shows the 
 button for creation (purple frame).
 
 ![Image2: Expanded Studio tree](images/editorial-quick-start/image04.png)  

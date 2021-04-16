@@ -1,4 +1,4 @@
-# The   content-hub-adapter-dropbox Extension Manual
+# The   content-hub-adapter-dropbox Plugin Manual
 
 ## Table of Contents
 
@@ -8,7 +8,7 @@
 
 1. [Installation](installation.md)
 
-    How to administrate the content-hub-adapter-dropbox extension (especially in CoreMedia Studio).
+    How to administrate the content-hub-adapter-dropbox plugin (especially in CoreMedia Studio).
 
 1. [Contribute](contribute.md)
 
