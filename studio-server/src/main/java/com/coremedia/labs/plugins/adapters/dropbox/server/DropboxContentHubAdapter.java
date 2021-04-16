@@ -1,6 +1,15 @@
 package com.coremedia.labs.plugins.adapters.dropbox.server;
 
-import com.coremedia.contenthub.api.*;
+import com.coremedia.contenthub.api.ContentHubAdapter;
+import com.coremedia.contenthub.api.ContentHubContext;
+import com.coremedia.contenthub.api.ContentHubMimeTypeService;
+import com.coremedia.contenthub.api.ContentHubObject;
+import com.coremedia.contenthub.api.ContentHubObjectId;
+import com.coremedia.contenthub.api.ContentHubTransformer;
+import com.coremedia.contenthub.api.ContentHubType;
+import com.coremedia.contenthub.api.Folder;
+import com.coremedia.contenthub.api.GetChildrenResult;
+import com.coremedia.contenthub.api.Item;
 import com.coremedia.contenthub.api.exception.ContentHubException;
 import com.coremedia.contenthub.api.pagination.PaginationRequest;
 import com.dropbox.core.DbxException;
