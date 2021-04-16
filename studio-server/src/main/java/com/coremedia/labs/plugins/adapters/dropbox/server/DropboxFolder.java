@@ -13,7 +13,6 @@ class DropboxFolder extends DropboxHubObject implements Folder {
 
   DropboxFolder(ContentHubObjectId id, Metadata metadata, String name) {
     super(id, metadata);
-    setName(name);
     if (metadata == null) {
       isRoot = true;
     }
