@@ -1,4 +1,4 @@
-package com.coremedia.blueprint.contenthub.adapters.dropbox;
+package com.coremedia.labs.plugins.adapters.dropbox.server;
 
 
 import com.coremedia.contenthub.api.ContentHubObjectId;
@@ -13,8 +13,9 @@ class DropboxFolder extends DropboxHubObject implements Folder {
 
   DropboxFolder(ContentHubObjectId id, Metadata metadata, String name) {
     super(id, metadata);
-    setName(name);
-    if (metadata == null) isRoot = true;
+    if (metadata == null) {
+      isRoot = true;
+    }
   }
 
   @NonNull
@@ -23,7 +24,7 @@ class DropboxFolder extends DropboxHubObject implements Folder {
     return new ContentHubType("dbx_folder");
   }
 
-  public boolean isRoot(){
+  public boolean isRoot() {
     return isRoot;
   }
 }

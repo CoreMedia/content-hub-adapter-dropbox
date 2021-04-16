@@ -9,7 +9,6 @@
 <link rel="icon" type="image/png" href="/graphics/gnu-head-mini.png" />
 <meta name="ICBM" content="42.355469,-71.058627" />
 <meta name="DC.title" content="gnu.org" />
-<link rel="stylesheet" type="text/css" href="/reset.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="/mini.css" media="handheld" />
 <link rel="stylesheet" type="text/css" href="/layout.min.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="/print.min.css" media="print" />
@@ -36,19 +35,13 @@
 <!-- start of server/banner.html -->
 <!-- start of head-include-2.html -->
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<style type="text/css" media="screen">
-@media (min-width: 0) {
-   a#more-links:after { content: "More\00A0\002B9F"; }
-   a#less-links:after { content: "\002B9D"; }
-}
-</style>
 <!-- end of head-include-2.html -->
 
 </head>
 <body>
 <div class="inner">
 <!-- start of server/body-include-1.html -->
-<div>
+<div id="top">
 <a class="skip" href="#content"><b>Skip to main text</b></a>
 </div>
 
@@ -58,7 +51,7 @@ href="https://www.fsf.org/associate/support_freedom?referrer=4052">JOIN&nbsp;THE
 </div>
 
 <form id="fssbox" action="https://my.fsf.org/civicrm/profile/create?reset=1&amp;gid=31"
-      method="post" class="header">
+      method="post">
  <div>
   <input name="postURL" type="hidden" value="" />
   <input type="hidden" name="group[25]" value="1" />
@@ -87,12 +80,12 @@ href="https://www.fsf.org/associate/support_freedom?referrer=4052">JOIN&nbsp;THE
 
 <div id="switches">
  <a id="search-button" class="switch" href="//www.gnu.org/cgi-bin/estseek.cgi">
-  <img id="search-icon" height="32"
+  <img id="search-icon" height="24"
        src="/graphics/icons/search.png"
        alt="&nbsp;[Search www.gnu.org]&nbsp;" /></a>
 
  <a id="language-button" class="switch" href="#language-container">
-  <img id="language-icon" height="32"
+  <img id="language-icon" height="24"
        src="/graphics/icons/translations.png"
        alt="&nbsp;[Languages]&nbsp;" />
  </a>
@@ -105,9 +98,11 @@ href="https://www.fsf.org/associate/support_freedom?referrer=4052">JOIN&nbsp;THE
 
 
 <div style="clear: both"></div>
+
 <div id="navigation">
- <a id="more-links" href="#navigation"></a>
- <a id="less-links" href="#tabAboutGNU"></a>
+ <a id="more-links" href="#navigation" title="More...">
+   <span>Site navigation</span></a>
+ <a id="less-links" href="#content"><b>Skip</b></a>
  <ul>
 
    <li id="tabAboutGNU"><a href="/gnu/gnu.html">ABOUT&nbsp;GNU</a></li>
@@ -831,13 +826,14 @@ That's all there is to it!</p>
 
 
 <div id="language-container">
- <a href="#" class="close"></a>
+ <div class="backtotop">
+  <hr class="no-display" />
+  <a href="#top"><b>&#9650;</b></a>
+ </div>
  <div id="languages" class="rounded-corners">
-  <div class="backtotop">
-   <hr class="no-display" />
-   <a href="#header"><span>BACK TO TOP </span>&#11165;</a>
+  <div class="button">
+   <a href="#top" class="close"><span>BACK TO TOP</span></a>
   </div>
-  <a href="#" class="close"></a>
   <div id="set-language" class="button">
    <span class="gnun-split"></span>
    <a href="/server/select-language.html?callback=/licenses/old-licenses/lgpl-2.1.en.html" rel="nofollow">
@@ -863,7 +859,7 @@ That's all there is to it!</p>
 <div id="mission-statement">
  <div class="backtotop">
   <hr class="no-display" />
-  <a href="#header"><span>BACK TO TOP </span>&#11165;</a>
+  <a href="#header"><span>BACK TO TOP </span>&#9650;</a>
  </div>
 <div style="clear: both"></div>
 <blockquote>

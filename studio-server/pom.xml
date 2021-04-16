@@ -3,45 +3,74 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.coremedia.blueprint</groupId>
-    <artifactId>studio-server.extensions</artifactId>
-    <version>1-SNAPSHOT</version>
-  </parent>
-
-  <groupId>com.coremedia.blueprint.contenthub</groupId>
+  <groupId>com.coremedia.labs.plugins</groupId>
   <artifactId>studio-server.content-hub-adapter-dropbox</artifactId>
+  <version>1.0.3-SNAPSHOT</version>
 
   <properties>
+    <maven.compiler.release>11</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <cm.studio-server.core.version>2101.1</cm.studio-server.core.version>
+    <cm.common.core.version>2101.1</cm.common.core.version>
     <dropbox.version>3.1.3</dropbox.version>
-    <coremedia.project.extension.for>studio-lib</coremedia.project.extension.for>
   </properties>
 
-  <dependencies>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.coremedia.cms</groupId>
+        <artifactId>studio-server-core-bom</artifactId>
+        <version>${cm.studio-server.core.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.coremedia.cms</groupId>
+        <artifactId>studio-server-thirdparty-for-plugins-bom</artifactId>
+        <version>${cm.studio-server.core.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.coremedia.cms</groupId>
+        <artifactId>common-core-bom</artifactId>
+        <version>${cm.common.core.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
+  <dependencies>
     <dependency>
       <groupId>com.sun.activation</groupId>
       <artifactId>jakarta.activation</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.coremedia.cms</groupId>
-      <artifactId>coremedia-common</artifactId>
+      <version>1.2.2</version>
     </dependency>
 
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>cap-unified-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>com.coremedia.content-hub</groupId>
       <artifactId>content-hub-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>coremedia-common</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -53,11 +82,6 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
       <scope>provided</scope>
     </dependency>
 
@@ -70,31 +94,73 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>cap-client-base</artifactId>
+      <scope>provided</scope>
     </dependency>
-
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.2</version>
         <executions>
           <execution>
-            <id>attach-sources</id>
+            <id>studio-server.content-hub-adapter-dropbox:maven-dependency-plugin:analyze-duplicate</id>
             <goals>
-              <goal>jar</goal>
+              <goal>analyze-duplicate</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>studio-server.content-hub-adapter-dropbox:maven-dependency-plugin:analyze-only</id>
+            <goals>
+              <goal>analyze-only</goal>
+            </goals>
+            <configuration>
+              <failOnWarning>true</failOnWarning>
+              <ignoreNonCompile>false</ignoreNonCompile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/descriptor.xml</descriptor>
+          </descriptors>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-plugin</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+      </plugin>
     </plugins>
   </build>
-
-
 </project>
