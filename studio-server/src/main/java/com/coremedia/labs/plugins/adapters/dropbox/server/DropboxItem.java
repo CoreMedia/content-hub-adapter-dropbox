@@ -10,9 +10,7 @@ import com.coremedia.mimetype.TikaMimeTypeService;
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.Dimensions;
-import com.dropbox.core.v2.files.FileMetadata;
-import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.*;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.slf4j.Logger;
@@ -25,9 +23,10 @@ import java.util.stream.Collectors;
 
 
 class DropboxItem extends BaseFileSystemItem implements Item {
+
   private static final Logger LOG = LoggerFactory.getLogger(DropboxItem.class);
+
   private static final WordAbbreviator ABBREVIATOR = new WordAbbreviator();
-  private static final int BLOB_SIZE_LIMIT = 10000000;
   private final FileMetadata fileMetadata;
   private final TikaMimeTypeService tikaservice;
   private ContentHubMimeTypeService mimeTypeService;
@@ -92,9 +91,10 @@ class DropboxItem extends BaseFileSystemItem implements Item {
   @NonNull
   @Override
   public List<DetailsSection> getDetails() {
+    ContentHubBlob blob = getBlob(CLASSIFIER_PREVIEW);
     return List.of(
             new DetailsSection("main", List.of(
-                    new DetailsElement<>(fileMetadata.getName(), false, SHOW_TYPE_ICON)
+                    new DetailsElement<>(getName(), false, Objects.requireNonNullElse(blob, SHOW_TYPE_ICON))
             ), false, false, false),
             new DetailsSection("metadata", List.of(
                     new DetailsElement<>("text", formatPreviewString(getDescription())),
@@ -102,21 +102,29 @@ class DropboxItem extends BaseFileSystemItem implements Item {
                     new DetailsElement<>("published", formatPreviewDate(fileMetadata.getServerModified())),
                     new DetailsElement<>("lastModified", formatPreviewDate(fileMetadata.getClientModified())),
                     new DetailsElement<>("link", formatPreviewString(fileMetadata.getSymlinkInfo() != null ? fileMetadata.getSymlinkInfo().getTarget() : null)),
-                    new DetailsElement<>("dimension", formatPreviewString(fileMetadata.getMediaInfo() != null ? formatDimension(fileMetadata.getMediaInfo().getMetadataValue().getDimensions()) : null))
+                    new DetailsElement<>("dimensions", formatPreviewString(fileMetadata.getMediaInfo() != null ? formatDimension(fileMetadata.getMediaInfo().getMetadataValue().getDimensions()) : null))
             ).stream().filter(p -> Objects.nonNull(p.getValue())).collect(Collectors.toUnmodifiableList())));
   }
 
   @Nullable
   @Override
   public ContentHubBlob getBlob(String classifier) {
-    if (CLASSIFIER_PREVIEW.equals(classifier)) {
-      return getPreviewBlob();
-    }
-
-    MimeType contentType = mimeTypeService.mimeTypeForResourceName(getName());
-    long size = fileMetadata.getSize();
     try {
-      DbxDownloader<FileMetadata> downloader = getClient().files().download(fileMetadata.getPathDisplay());
+      MimeType contentType = mimeTypeService.mimeTypeForResourceName(getName());
+      long size = fileMetadata.getSize();
+      DbxDownloader<FileMetadata> downloader;
+      if (CLASSIFIER_PREVIEW.equals(classifier)) {
+        String id = fileMetadata.getId();
+        GetThumbnailBuilder thumbnailBuilder = getClient().files().getThumbnailBuilder(id)
+                .withSize(ThumbnailSize.W480H320)
+                .withFormat(ThumbnailFormat.JPEG)
+                .withMode(ThumbnailMode.BESTFIT);
+        downloader = thumbnailBuilder.start();
+        contentType = new MimeType("image/jpeg");
+        size = -1;
+      } else {
+        downloader = getClient().files().download(fileMetadata.getPathDisplay());
+      }
       ContentHubBlob blob = new ContentHubDefaultBlob(
               this,
               classifier,
@@ -125,19 +133,9 @@ class DropboxItem extends BaseFileSystemItem implements Item {
               downloader::getInputStream,
               null);
       return blob;
-    } catch(IllegalArgumentException | DbxException e) {
-      LOG.error("Cannot create preview blob for {}. {}", fileMetadata, e);
+    } catch(Exception e) {
+      LOG.error("Cannot create blob for {}. {}", fileMetadata, e);
     }
-    return null;
-  }
-
-  private ContentHubBlob getPreviewBlob() {
-    try {
-      return new UrlBlobBuilder(this, CLASSIFIER_PREVIEW).withUrl(getClient().sharing().getFileMetadata(fileMetadata.getPathDisplay()).getPreviewUrl()).withEtag().build();
-    } catch (DbxException e) {
-      LOG.error("Cannot create preview blob for {}. {}", fileMetadata, e);
-    }
-
     return null;
   }
 
@@ -176,6 +174,6 @@ class DropboxItem extends BaseFileSystemItem implements Item {
   }
 
   private String formatDimension(Dimensions dimensions) {
-    return String.format("Height: %s x Width: %s", dimensions.getHeight(), dimensions.getWidth());
+    return String.format("%dx%dpx", dimensions.getWidth(), dimensions.getHeight());
   }
 }
