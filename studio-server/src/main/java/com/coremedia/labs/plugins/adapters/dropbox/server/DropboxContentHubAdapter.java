@@ -92,7 +92,6 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
     String displayName = settings.getDisplayName();
     ContentHubObjectId rootId = new ContentHubObjectId(connectionId, connectionId);
     return new DropboxFolder(rootId, null, displayName);
-
   }
 
   @Nullable

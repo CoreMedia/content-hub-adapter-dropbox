@@ -19,6 +19,7 @@ import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.activation.MimeTypeParseException;
@@ -61,9 +62,10 @@ class DropboxContentHubTransformer implements ContentHubTransformer {
 
   @NonNull
   private ContentModel transformDropboxItem(DropboxItem item) {
-    ContentModel contentModel = ContentModel.createContentModel(item.getFileMetadata().getName(), item.getId(), item.getCoreMediaContentType());
-    contentModel.put("title", item.getName());
+    String contentName = FilenameUtils.removeExtension(item.getName());
     String type = item.getCoreMediaContentType();
+    ContentModel contentModel = ContentModel.createContentModel(contentName, item.getId(), type);
+    contentModel.put("title", contentName);
 
     Map<String, Object> additionalProps = new HashMap<>();
 
