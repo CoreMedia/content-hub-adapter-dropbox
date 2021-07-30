@@ -84,7 +84,7 @@ class DropboxItem extends BaseFileSystemItem implements Item {
         return "CMArticle";
       }
     } else {
-      return "CMArticle";
+      return "CMDownload";
     }
   }
 
