@@ -152,7 +152,7 @@
         "../../../../node_modules/.pnpm/@coremedia+studio-client.workflow-services-api@2110.1.0-pr3/node_modules/@coremedia/studio-client.workflow-services-api/src/*"
       ],
       "@jangaroo/ext-ts/*": [
-        "../../../../node_modules/.pnpm/@jangaroo+ext-ts@1.0.0-beta.1/node_modules/@jangaroo/ext-ts/src/*"
+        "../../../../node_modules/.pnpm/@jangaroo+ext-ts@1.0.0-alpha.17/node_modules/@jangaroo/ext-ts/src/*"
       ],
       "@jangaroo/jangaroo-net/*": [
         "../../../../node_modules/.pnpm/@jangaroo+jangaroo-net@1.0.0-alpha.32/node_modules/@jangaroo/jangaroo-net/src/*"
