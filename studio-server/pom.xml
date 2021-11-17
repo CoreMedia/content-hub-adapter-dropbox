@@ -5,16 +5,35 @@
 
   <groupId>com.coremedia.labs.plugins</groupId>
   <artifactId>studio-server.content-hub-adapter-dropbox</artifactId>
-  <version>1.0.7-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
 
   <properties>
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <cm.studio-server.core.version>2101.1</cm.studio-server.core.version>
-    <cm.common.core.version>2101.1</cm.common.core.version>
+    <cm.studio-server.core.version>2110.1-pr3</cm.studio-server.core.version>
+    <cm.common.core.version>2110.1-pr3</cm.common.core.version>
     <dropbox.version>3.1.3</dropbox.version>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>coremedia.external.releases</id>
+      <url>https://repository.coremedia.com/nexus/content/groups/cms/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>coremedia.external.releases</id>
+      <url>https://repository.coremedia.com/nexus/content/groups/cms/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 
   <dependencyManagement>
     <dependencies>
@@ -44,6 +63,16 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.12.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.10.0</version>
+    </dependency>
+    <dependency>
       <groupId>com.sun.activation</groupId>
       <artifactId>jakarta.activation</artifactId>
       <version>1.2.2</version>
@@ -51,70 +80,48 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.8.0</version>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>content-hub-api</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.11</version>
-      <scope>provided</scope>
-    </dependency>
-
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>cap-unified-api</artifactId>
       <scope>provided</scope>
     </dependency>
-
-    <dependency>
-      <groupId>com.coremedia.content-hub</groupId>
-      <artifactId>content-hub-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
     <dependency>
       <groupId>com.coremedia.cms</groupId>
       <artifactId>coremedia-common</artifactId>
       <scope>provided</scope>
     </dependency>
-
+    <dependency>
+      <groupId>com.coremedia.cms</groupId>
+      <artifactId>cap-client-base</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>com.dropbox.core</groupId>
       <artifactId>dropbox-core-sdk</artifactId>
       <version>${dropbox.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <scope>provided</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
       <scope>provided</scope>
     </dependency>
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.coremedia.cms</groupId>
-      <artifactId>cap-client-base</artifactId>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -131,15 +138,23 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <version>3.1.2</version>
+        <configuration>
+          <ignoredDependencies>
+            <!-- JUnit Jupiter: Use Aggregator rather than API/Engine Artifacts directly -->
+            <ignoredDependency>org.junit.jupiter:junit-jupiter</ignoredDependency>
+            <ignoredDependency>org.junit.jupiter:junit-jupiter-api</ignoredDependency>
+            <ignoredDependency>org.junit.jupiter:junit-jupiter-params</ignoredDependency>
+          </ignoredDependencies>
+        </configuration>
         <executions>
           <execution>
-            <id>studio-server.content-hub-adapter-dropbox:maven-dependency-plugin:analyze-duplicate</id>
+            <id>analyze-duplicate</id>
             <goals>
               <goal>analyze-duplicate</goal>
             </goals>
           </execution>
           <execution>
-            <id>studio-server.content-hub-adapter-dropbox:maven-dependency-plugin:analyze-only</id>
+            <id>analyze-only</id>
             <goals>
               <goal>analyze-only</goal>
             </goals>

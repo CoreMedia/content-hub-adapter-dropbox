@@ -1,4 +1,4 @@
-package com.coremedia.labs.plugins.adapters.dropbox.server;
+package com.coremedia.labs.plugins.adapters.dropbox;
 
 import com.coremedia.cap.common.Blob;
 import com.coremedia.contenthub.api.ContentCreationUtil;

@@ -1,4 +1,4 @@
-package com.coremedia.labs.plugins.adapters.dropbox.server;
+package com.coremedia.labs.plugins.adapters.dropbox;
 
 
 import com.coremedia.common.util.WordAbbreviator;
@@ -113,10 +113,10 @@ class DropboxItem extends BaseFileSystemItem implements Item {
       MimeType contentType = mimeTypeService.mimeTypeForResourceName(getName());
       long size = fileMetadata.getSize();
       DbxDownloader<FileMetadata> downloader;
-      if (CLASSIFIER_PREVIEW.equals(classifier)) {
+      if (CLASSIFIER_PREVIEW.equals(classifier) || ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER.equals(classifier)) {
         String id = fileMetadata.getId();
         GetThumbnailBuilder thumbnailBuilder = getClient().files().getThumbnailBuilder(id)
-                .withSize(ThumbnailSize.W480H320)
+                .withSize(ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER.equals(classifier) ? ThumbnailSize.W64H64 : ThumbnailSize.W480H320)
                 .withFormat(ThumbnailFormat.JPEG)
                 .withMode(ThumbnailMode.BESTFIT);
         downloader = thumbnailBuilder.start();
@@ -137,6 +137,12 @@ class DropboxItem extends BaseFileSystemItem implements Item {
       LOG.error("Cannot create blob for {}. {}", fileMetadata, e);
     }
     return null;
+  }
+
+  @Nullable
+  @Override
+  public ContentHubBlob getThumbnailBlob() {
+    return getBlob(ContentHubBlob.THUMBNAIL_BLOB_CLASSIFIER);
   }
 
   @Nullable

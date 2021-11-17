@@ -1,9 +1,10 @@
-package com.coremedia.labs.plugins.adapters.dropbox.server;
+package com.coremedia.labs.plugins.adapters.dropbox;
 
 import com.coremedia.contenthub.api.BaseFileSystemConfiguration;
 import com.coremedia.contenthub.api.ContentHubAdapterFactory;
 import com.coremedia.contenthub.api.ContentHubMimeTypeService;
 import com.coremedia.contenthub.api.ContentHubType;
+import com.coremedia.labs.plugins.adapters.dropbox.DropboxContentHubAdapterFactory;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
