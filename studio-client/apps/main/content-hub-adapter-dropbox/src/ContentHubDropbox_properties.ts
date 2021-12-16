@@ -26,6 +26,10 @@ interface ContentHubDropbox_properties {
   lastModified_sectionItemKey: string;
   link_sectionItemKey: string;
   dimensions_sectionItemKey: string;
+  "item_type_vnd.openxmlformats-officedocument.wordprocessingml.document_name": string
+  "item_type_vnd.openxmlformats-officedocument.wordprocessingml.document_icon": string,
+  "item_type_vnd.openxmlformats-officedocument.spreadsheetml.sheet_name": string,
+  "item_type_vnd.openxmlformats-officedocument.spreadsheetml.sheet_icon": string,
 }
 
 /**
@@ -48,6 +52,10 @@ const ContentHubDropbox_properties: ContentHubDropbox_properties = {
   lastModified_sectionItemKey: "Last modified",
   link_sectionItemKey: "Link",
   dimensions_sectionItemKey: "Dimensions",
+  "item_type_vnd.openxmlformats-officedocument.wordprocessingml.document_name": "Word",
+  "item_type_vnd.openxmlformats-officedocument.wordprocessingml.document_icon": CoreIcons_properties.mimetype_doc,
+  "item_type_vnd.openxmlformats-officedocument.spreadsheetml.sheet_name": "Excel",
+  "item_type_vnd.openxmlformats-officedocument.spreadsheetml.sheet_icon": CoreIcons_properties.mimetype_doc,
 };
 
 export default ContentHubDropbox_properties;
