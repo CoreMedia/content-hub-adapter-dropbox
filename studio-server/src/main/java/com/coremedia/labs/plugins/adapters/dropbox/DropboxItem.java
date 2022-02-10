@@ -2,7 +2,13 @@ package com.coremedia.labs.plugins.adapters.dropbox;
 
 
 import com.coremedia.common.util.WordAbbreviator;
-import com.coremedia.contenthub.api.*;
+import com.coremedia.contenthub.api.BaseFileSystemItem;
+import com.coremedia.contenthub.api.ContentHubBlob;
+import com.coremedia.contenthub.api.ContentHubDefaultBlob;
+import com.coremedia.contenthub.api.ContentHubMimeTypeService;
+import com.coremedia.contenthub.api.ContentHubObjectId;
+import com.coremedia.contenthub.api.ContentHubType;
+import com.coremedia.contenthub.api.Item;
 import com.coremedia.contenthub.api.exception.ContentHubException;
 import com.coremedia.contenthub.api.preview.DetailsElement;
 import com.coremedia.contenthub.api.preview.DetailsSection;
@@ -10,7 +16,13 @@ import com.coremedia.mimetype.TikaMimeTypeService;
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.*;
+import com.dropbox.core.v2.files.Dimensions;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.GetThumbnailBuilder;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.ThumbnailFormat;
+import com.dropbox.core.v2.files.ThumbnailMode;
+import com.dropbox.core.v2.files.ThumbnailSize;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.slf4j.Logger;
@@ -18,7 +30,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.activation.MimeType;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -39,7 +55,7 @@ class DropboxItem extends BaseFileSystemItem implements Item {
               DbxClientV2 client,
               ContentHubMimeTypeService mimeTypeService,
               Map<ContentHubType, String> itemTypeToContentTypeMapping) {
-    super(id, metadata != null? metadata.getName(): "root", mimeTypeService, itemTypeToContentTypeMapping);
+    super(id, metadata != null ? metadata.getName() : "root", mimeTypeService, itemTypeToContentTypeMapping);
     setClient(client);
     this.fileMetadata = (FileMetadata) getFileMetadata(id);
     this.tikaservice = new TikaMimeTypeService();
@@ -133,7 +149,7 @@ class DropboxItem extends BaseFileSystemItem implements Item {
               downloader::getInputStream,
               null);
       return blob;
-    } catch(Exception e) {
+    } catch (Exception e) {
       LOG.error("Cannot create blob for {}. {}", fileMetadata, e);
     }
     return null;

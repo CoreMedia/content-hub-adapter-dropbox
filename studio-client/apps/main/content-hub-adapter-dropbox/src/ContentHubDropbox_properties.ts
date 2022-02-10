@@ -1,6 +1,6 @@
 import CoreIcons_properties from "@coremedia/studio-client.core-icons/CoreIcons_properties";
 import icon from "./icons/dropbox_24.svg";
-import SvgIconUtil from "@coremedia/studio-client.cap-base-models/util/SvgIconUtil";
+import SvgIconUtil from "@coremedia/studio-client.base-models/util/SvgIconUtil";
 
 /**
  * Interface values for ResourceBundle "ContentHubDropbox".
