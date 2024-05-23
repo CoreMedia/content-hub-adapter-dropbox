@@ -22,7 +22,7 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.util.HtmlUtils;
 
-import javax.activation.MimeTypeParseException;
+import jakarta.activation.MimeTypeParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
