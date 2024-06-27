@@ -16,8 +16,8 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.http.StandardHttpRequestor;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.DbxUserListFolderBuilder;
 import com.dropbox.core.v2.files.FolderMetadata;
-import com.dropbox.core.v2.files.ListFolderBuilder;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 import edu.umd.cs.findbugs.annotations.NonNull;
@@ -119,8 +119,8 @@ class DropboxContentHubAdapter implements ContentHubAdapter {
     List<ContentHubObject> children = new ArrayList<>();
 
     try {
-      ListFolderBuilder listFolderBuilder = client.files().listFolderBuilder(((DropboxFolder) folder).isRoot() ? "" : ((DropboxFolder) folder).getPathDisplay());
-      ListFolderResult result = listFolderBuilder.withRecursive(false).start();
+      DbxUserListFolderBuilder dbxUserListFolderBuilder = client.files().listFolderBuilder(((DropboxFolder) folder).isRoot() ? "" : ((DropboxFolder) folder).getPathDisplay());
+      ListFolderResult result = dbxUserListFolderBuilder.withRecursive(false).start();
 
       for (Metadata entry : result.getEntries()) {
         ContentHubObjectId id = new ContentHubObjectId(connectionId, entry.getPathDisplay());
