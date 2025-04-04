@@ -145,7 +145,7 @@ jobs:
           echo "::set-output name=version::${snapshot_version}"
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: content-hub-adapter-dropbox-${{ steps.output-version.outputs.version }}
           path: target/bundle
