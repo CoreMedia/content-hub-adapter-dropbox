@@ -137,7 +137,7 @@ class DropboxItem extends BaseFileSystemItem implements Item {
                 .withMode(ThumbnailMode.BESTFIT);
         downloader = thumbnailBuilder.start();
         contentType = new MimeType("image/jpeg");
-        size = -1;
+        // size = -1; //this prevents thumbnail from showing (exception: "content-Length must be a non-negative number")
       } else {
         downloader = getClient().files().download(fileMetadata.getPathDisplay());
       }
